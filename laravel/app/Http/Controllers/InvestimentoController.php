@@ -169,7 +169,7 @@ class InvestimentoController extends Controller
         $diferencaDatas = strtotime($dataAtual) - strtotime($dataDoInvestimento);
         $mesesPassados = floor(($diferencaDatas / (60 * 60 * 24)) / 30);
 
-        $taxaDeJuros = 10;
+        $taxaDeJuros = 0.52;
         $investimentoAcumulado = $investimentoVisualizar->value('investimento_valor');
         $jurosCompostosTotal = 0;
 
