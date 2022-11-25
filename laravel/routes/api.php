@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CriarInvestimentoController;
+use App\Http\Controllers\InvestimentoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::post('criarInvestimento', [CriarInvestimentoController::class, 'criarInvestimento'])->name('criarInvestimento');
-Route::get('criarInvestimento/code', [CriarInvestimentoController::class, 'code'])->name('code');
+Route::post('criarInvestimento', [InvestimentoController::class, 'criarInvestimento'])->name('criarInvestimento');
+Route::get('visualizarInvestimento', [InvestimentoController::class, 'visualizarInvestimento'])->name('visualizarInvestimento');
 
+Route::get('code/{id}', [InvestimentoController::class, 'code'])->name('code');
 
-Route::post('criarInvestimento', [CriarInvestimentoController::class, 'criarInvestimento'])->name('criarInvestimento');
