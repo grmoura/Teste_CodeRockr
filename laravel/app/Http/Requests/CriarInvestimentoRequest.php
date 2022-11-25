@@ -15,25 +15,25 @@ class CriarInvestimentoRequest
   
     public static function inputs($request)
     {
-
-        if (empty($request->investidor)) {
+       
+        if (empty($request->investidorNome)) {
             return CriarInvestimentoRequest::MESSAGE_CAMPO_INVESTIDOR_VAZIO;
         }
 
-        if (empty($request->valor)) {
+        if (empty($request->investimentoValor)) {
             return CriarInvestimentoRequest::MESSAGE_CAMPO_VALOR_VAZIO;
         }
-        if (empty($request->data)) {
+        if (empty($request->investimentoData)) {
             return CriarInvestimentoRequest::MESSAGE_CAMPO_DATA_VAZIO;
         }
-        if (preg_match("/^[0-9\.\,\d]+$/", $request->valor) == 0) {
+        if (preg_match("/^[0-9\.\,\d]+$/", $request->investimentoValor) == 0) {
             return CriarInvestimentoRequest::MESSAGE_VALOR_SO_NUMERO;
         }
-        if ($request->valor <= 0) {
+        if ($request->investimentoValor <= 0) {
             return CriarInvestimentoRequest::MESSAGE_VALOR_MAIOR_ZERO;
         }
 
-        if (!CriarInvestimentoRequest::validarData($request->data)) {
+        if (!CriarInvestimentoRequest::validarData($request->investimentoData)) {
             return CriarInvestimentoRequest::MESSAGE_DATA_INVALIDA;
         }
 
@@ -44,22 +44,22 @@ class CriarInvestimentoRequest
     {
         switch ($code) {
             case CriarInvestimentoRequest::MESSAGE_CAMPO_INVESTIDOR_VAZIO:
-                $message = "O Input [investidor] não foi Informado ou está vazio.";
+                $message = "O Input [investidorNome] não foi Informado ou está vazio.";
                 break;
             case CriarInvestimentoRequest::MESSAGE_CAMPO_VALOR_VAZIO:
-                $message = "O Input [valor] não foi Informado ou está vazio.";
+                $message = "O Input [investimentoValor] não foi Informado ou está vazio.";
                 break;
             case CriarInvestimentoRequest::MESSAGE_CAMPO_DATA_VAZIO:
-                $message = "O Input [data] não foi Informado ou está vazio.";
+                $message = "O Input [investimentoData] não foi Informado ou está vazio.";
                 break;
             case CriarInvestimentoRequest::MESSAGE_VALOR_SO_NUMERO:
-                $message = "O Input [value] só é permitido números.";
+                $message = "O Input [investimentoValor] só é permitido números.";
                 break;
             case CriarInvestimentoRequest::MESSAGE_VALOR_MAIOR_ZERO:
-                $message = "O Input [value] deve ser maior que 0.00 BRL.";
+                $message = "O Input [investimentoValor] deve ser maior que 0.00 BRL.";
                 break;
             case CriarInvestimentoRequest::MESSAGE_DATA_INVALIDA:
-                $message = "O Input [data] inválida digite uma corretamente (ANO-MES-DIA).";
+                $message = "O Input [investimentoData] inválida digite uma corretamente (ANO-MES-DIA).";
                 break;
             case CriarInvestimentoRequest::MESSAGE_INVESTIMENTO_CRIADO:
                 $message = "Parabéns seu investimento foi criado.";

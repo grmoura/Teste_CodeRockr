@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('investimentos', function (Blueprint $table) {
             $table->id();
-            $table->string('investidor');
-            $table->double('valor', 8, 2);
-            $table->date('data');
+            $table->string('investidor_nome');
+            $table->double('investimento_valor', 8, 2);
+            $table->date('investimento_data_entrada');
+            $table->tinyInteger('investimento_saque')->default(0);
+            $table->date('investimento_data_saida')->nullable($value = true);
             $table->tinyInteger('excluido')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

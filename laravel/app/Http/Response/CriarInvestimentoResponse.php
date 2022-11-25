@@ -7,16 +7,19 @@ use App\Http\Requests\CriarInvestimentoRequest;
 class CriarInvestimentoResponse
 {
     const STATUS_CODE_SUCESSO = 200;
-    
-    public static function response($dados)
+
+    public static function responseSucesso($dados)
     {
         $message =  CriarInvestimentoRequest::message($dados['code'], false);
-
-        $response = response()->json([
-            "success"   => true,
-            "code"      => $dados['code'],
-            "id"        => $dados['id'],
-            "message"   => $message], 
+        $investimentoId = $dados['id'];
+        $code = $dados['code'];
+        $response = response()->json(
+            [
+                "success"               => true,
+                "investimentoId"        => $investimentoId,
+                "code"                  => $code,
+                "message"               => $message
+            ],
             CriarInvestimentoResponse::STATUS_CODE_SUCESSO
         );
 
