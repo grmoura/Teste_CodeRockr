@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Controllers\InvestimentoController;
+
 class CriarInvestimentoRequest
 {
     const MESSAGE_CAMPO_INVESTIDOR_VAZIO = 1;
@@ -33,7 +35,7 @@ class CriarInvestimentoRequest
             return CriarInvestimentoRequest::MESSAGE_VALOR_MAIOR_ZERO;
         }
 
-        if (!CriarInvestimentoRequest::validarData($request->investimentoData)) {
+        if (!InvestimentoController::validarData($request->investimentoData)) {
             return CriarInvestimentoRequest::MESSAGE_DATA_INVALIDA;
         }
 
@@ -77,9 +79,5 @@ class CriarInvestimentoRequest
         }
     }
 
-    public static function validarData($data)
-    {
-        $data = explode('-', $data);
-        return checkdate($data[1], $data[2], $data[0]);
-    }
+
 }

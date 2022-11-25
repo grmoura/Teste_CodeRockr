@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('criarInvestimento', [InvestimentoController::class, 'criarInvestimento'])->name('criarInvestimento');
-Route::get('visualizarInvestimento', [InvestimentoController::class, 'visualizarInvestimento'])->name('visualizarInvestimento');
+Route::post('visualizarInvestimento', [InvestimentoController::class, 'visualizarInvestimento'])->name('visualizarInvestimento');
+Route::post('retirarInvestimento', [InvestimentoController::class, 'retirarInvestimento'])->name('retirarInvestimento');
+Route::post('listarInvestimento', [InvestimentoController::class, 'listarInvestimento'])->name('listarInvestimento');
 
 Route::get('code/{id}', [InvestimentoController::class, 'code'])->name('code');
 

@@ -16,9 +16,9 @@ class CriarInvestimentoResponse
         $response = response()->json(
             [
                 "success"               => true,
-                "investimentoId"        => $investimentoId,
                 "code"                  => $code,
-                "message"               => $message
+                "message"               => $message,
+                "investimentoDados"        => ["investimentoId" => $investimentoId],
             ],
             CriarInvestimentoResponse::STATUS_CODE_SUCESSO
         );

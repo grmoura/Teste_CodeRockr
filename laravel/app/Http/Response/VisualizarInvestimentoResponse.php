@@ -2,7 +2,9 @@
 
 namespace App\Http\Response;
 
+use App\Http\Controllers\InvestimentoController;
 use App\Http\Requests\VisualizarInvestimentoRequest;
+use App\Models\Investimento;
 
 class VisualizarInvestimentoResponse
 {
@@ -10,21 +12,34 @@ class VisualizarInvestimentoResponse
 
     public static function responseSucesso($dados)
     {
-        $code = $dados['code'];
-        $investimentoValor = VisualizarInvestimentoResponse::formatarValorEmReais($dados['investimentoValor']);
-        $saldoAtual = VisualizarInvestimentoResponse::formatarValorEmReais($dados['saldoAtual']);
+
+        $investimentoVisualizar = Investimento::getInvestimentoId($dados['investimentoId']);
+        $investimentoValor = InvestimentoController::formatarValorEmReais($investimentoVisualizar->value('investimento_valor'));
+        $saldoAtual = InvestimentoController::formatarValorEmReais(InvestimentoController::calcularMontante($dados));
         $dados['saldoAtual'] = $saldoAtual;
-        $investimentoId = $dados['investimentoId'];
+        $investimentoId = $investimentoVisualizar->value('id');
+
+        $code = $dados['code'];
         $message = VisualizarInvestimentoRequest::message($code, false, $dados);
+
+        $situacaoInvestimento = 'Ativo(rendendo)';
+        if ($investimentoVisualizar->value('investimento_saque'))
+            $situacaoInvestimento = 'Inativo(sacado)';
+
+
+        $investimento = [
+                "investimentoId"        => $investimentoId,
+                "situacaoInvestimento"  => $situacaoInvestimento,
+                "investimentoValor"     => $investimentoValor,
+                "saldoAtual"            => $saldoAtual
+        ];
 
         $response = response()->json(
             [
                 "success"               => true,
                 "code"                  => $code,
                 "message"               => $message,
-                "investimentoId"        => $investimentoId,
-                "investimentoValor"     => $investimentoValor,
-                "saldoAtual"            => $saldoAtual,
+                "investimentoDados"          => $investimento,
             ],
             VisualizarInvestimentoResponse::STATUS_CODE_SUCESSO
         );
@@ -36,7 +51,7 @@ class VisualizarInvestimentoResponse
     {
         $message = VisualizarInvestimentoRequest::message($dados['code'], false, $dados);
         $code = $dados['code'];
-        
+
         $response = response()->json(
             [
                 "success"               => false,
@@ -47,37 +62,5 @@ class VisualizarInvestimentoResponse
         );
 
         return $response;
-    }
-
-    public static function responseErroInvestimentoJaSacado($dados)
-    {
-        $code = $dados['code'];
-        $investimentoValor = VisualizarInvestimentoResponse::formatarValorEmReais($dados['investimentoValor']);
-        $saldoAtual = VisualizarInvestimentoResponse::formatarValorEmReais($dados['saldoAtual']);
-        $dados['saldoAtual'] = $saldoAtual;
-        $investimentoId = $dados['investimentoId'];
-        $message = VisualizarInvestimentoRequest::message($code, false, $dados);
-
-        $response = response()->json(
-            [
-                "success"               => true,
-                "code"                  => $code,
-                "message"               => $message,
-                "investimentoId"        => $investimentoId,
-                "investimentoValor"     => $investimentoValor,
-                "saldoAtual"            => $saldoAtual,
-            ],
-            VisualizarInvestimentoResponse::STATUS_CODE_SUCESSO
-        );
-
-        return $response;
-    }
-
-
-    public static function formatarValorEmReais($value)
-    {
-        $quantidade = str_replace('.', '', number_format($value, 2, ',', '.'));
-        $quantidade = str_replace('.', ',', $quantidade);
-        return $quantidade;
     }
 }
